@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js" integrity="sha512-+l9L4lMTFNy3dEglQpprf7jQBhQsQ3/WvOnjaN/+/L4i0jOstgScV0q2TjfvRF4V+ZePMDuZYIQtg5T4MKr+MQ==" crossorigin="anonymous"></script>
   <head>
     <title>Socket.IO chat</title>
     <style>
@@ -27,7 +27,7 @@
       <input id="input2" placeholder="username" autocomplete="off" /><button>CONNECT</button>
     </form>
 
-		<form id="form3" action="" style="margin-top: 300px;">
+		<form id="form3" action="" style="margin-top: 100px;">
       <input id="input3" placeholder="callee" autocomplete="off" /><button>CALL</button>
     </form>
   </body>
@@ -91,6 +91,12 @@
 		socket.on('callee-not-online', function(data) {
 			if (data.caller === caller) {
 				alert('callee is not online');
+			}
+		});
+
+		socket.on('invite-callee', (data) => {
+			if (data.callee === caller) {
+				socket.emit('join-room', data.room);
 			}
 		});
 	</script>

@@ -32,7 +32,21 @@ io.on('connection', (socket) => {
 			io.emit('callee-not-online', {
 				caller: data.caller
 			});
+			return;
 		}
+
+		const room = `${data.caller}-CALL-${data.callee}`;
+		socket.join(room);
+
+		io.emit('invite-callee', {
+			room,
+			callee: data.callee,
+		});
+	});
+
+	socket.on('join-room', (room) => {
+		console.log('joining...');
+		socket.join(room);
 	});
 
 	socket.on('disconnect', function () {
