@@ -27,6 +27,14 @@ io.on('connection', (socket) => {
 		socket.username = data.username;
 	});
 
+	socket.on('call-user-name', (data) => {
+		if (connectedUsers.findIndex((e) => e.username === data.callee) === -1) {
+			io.emit('callee-not-online', {
+				caller: data.caller
+			});
+		}
+	});
+
 	socket.on('disconnect', function () {
 		var connectionMessage = socket.username + " Disconnected from Socket " + socket.id;
 		console.log(connectionMessage);
